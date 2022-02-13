@@ -34,6 +34,10 @@ function playRound(player_input){
     } else {console.log("Wrong choice")}
 }
 
+
+var print_score = (player_score, computer_score) => console.log(`Player score: ${player_score}, Computer_score: ${computer_score}`);
+
+
 for (let i = 0; i < 5; i++) {
     let player_input = prompt("Enter rock, paper or scissors.");
     console.log(`=== Round: ${i+1} ===`);
@@ -42,12 +46,12 @@ for (let i = 0; i < 5; i++) {
 
     if (round_results[0] === "C"){
         computer_score++;
-        console.log(`Player score: ${player_score}, Computer_score: ${computer_score}`);
+        print_score(computer_score, player_score);
     } else if (round_results[0] === "P"){
         player_score++;
-        console.log(`Player score: ${player_score}, Computer_score: ${computer_score}`);
+        print_score(computer_score, player_score);
     } else {
-        console.log(`Player score: ${player_score}, Computer_score: ${computer_score}`);
+        print_score(computer_score, player_score);
     }
 }
 
