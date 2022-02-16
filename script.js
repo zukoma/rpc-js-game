@@ -1,57 +1,76 @@
-const hand_options = ["rock", "paper", "scissors"]
-var computer_score = 0
-var player_score = 0
+const hand_options = ["Rock", "Paper", "Scissors"]
+let computer_score = 0
+let player_score = 0
 
 
 function compare_results(user, computer){
     if (user === computer){
         return "Its a tie!";
-    } else if (user === "rock" && computer === "paper"){
+    } else if (user === "Rock" && computer === "Paper"){
         return "Computer wins. Paper beats rock.";
-    } else if (user === "rock" && computer === "scissors"){
+    } else if (user === "Rock" && computer === "Scissors"){
         return "Player wins. Rock beats scissors";
-    } else if (user === "paper" && computer === "rock"){
+    } else if (user === "Paper" && computer === "Rock"){
         return "Player wins. Paper beats rock";
-    } else if (user === "paper" && computer === "scissors"){
+    } else if (user === "Paper" && computer === "Scissors"){
         return "Computer wins. Scissors beat paper.";
-    } else if (user === "scissors" && computer === "rock"){
+    } else if (user === "Scissors" && computer === "Rock"){
         return "Computer wins. Rock beats scissors.";
-    } else if (user === "scissors" && computer === "paper"){
+    } else if (user === "Scissors" && computer === "Paper"){
         return "Player wins. Scissors beat paper";
     }
 }
 
 
 function playRound(player_input){
-    let player_input_lower = player_input.toLowerCase();
-    if (hand_options.includes(player_input_lower.toLowerCase())){
-        let computer_input = hand_options[Math.floor(Math.random() * hand_options.length)]
+    let computer_input = hand_options[Math.floor(Math.random() * hand_options.length)]
 
-        console.log(`Player choice: ${player_input_lower}`);
-        console.log(`Computer choice: ${computer_input}`);
-
-        return compare_results(player_input_lower, computer_input);
-    } else {console.log("Wrong choice")}
-}
-
-
-var print_score = (player_score, computer_score) => console.log(`Player score: ${player_score}, Computer_score: ${computer_score}`);
-
-
-for (let i = 0; i < 5; i++) {
-    let player_input = prompt("Enter rock, paper or scissors.");
-    console.log(`=== Round: ${i+1} ===`);
-    let round_results = playRound(player_input);
-    console.log(round_results);
+    let round_results = compare_results(player_input, computer_input);
 
     if (round_results[0] === "C"){
-        computer_score++;
-        print_score(computer_score, player_score);
+        changeResults(round_results);
+        changeScore("computer");
+        computer_score ++
     } else if (round_results[0] === "P"){
-        player_score++;
-        print_score(computer_score, player_score);
-    } else {
-        print_score(computer_score, player_score);
+        changeResults(round_results);
+        changeScore("player");
+        player_score ++
+    } else changeResults(round_results);
+
+    if (player_score == 5){
+        changeScore('reset');
+        alert("PLAYER WINS");
+    }else if (computer_score == 5){
+        changeScore('reset');
+        alert("COMPUTER WINS");
     }
 }
+
+
+function changeResults(winner_text){
+    return document.getElementById("results-text").innerHTML = winner_text;
+}
+
+
+function changeScore(winner){
+    if (winner == "reset"){
+        document.getElementById('computer').innerHTML = 0;
+        document.getElementById('player').innerHTML = 0;
+        computer_score = 0;
+        player_score = 0;
+        return null;
+    }
+    let current_score = document.getElementById(winner).innerHTML
+    return document.getElementById(winner).innerHTML = parseInt(current_score) + 1;
+}
+
+
+function playGame(e){
+    let player_input = e.target.innerText;
+    playRound(player_input);
+}
+
+
+const buttons = document.querySelectorAll('.button')
+window.addEventListener('click', playGame);
 
